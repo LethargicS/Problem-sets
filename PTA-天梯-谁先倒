@@ -1,0 +1,33 @@
+///这个题，一开始是按照两个人谁先酒量花光谁先倒来做的，只得了5分。后来看了题解，发现题意理解错了，题目的要求是直接判断谁先倒就可以了。感觉题意有点.....
+#include<cstdio>
+#include<cstring>
+using namespace std;
+struct hq
+{
+    int a,b;
+    int c,d;
+}z[105];
+int main()
+{
+    int x,y;
+    int n;
+    scanf("%d%d",&x,&y);
+    scanf("%d",&n);
+    int flag=0,p=0,q=0;
+    for(int i=0;i<n;i++){
+        scanf("%d%d%d%d",&z[i].a,&z[i].b,&z[i].c,&z[i].d);
+        int m=z[i].a+z[i].c;
+        if(flag) continue;
+        if(z[i].b==m&&z[i].d!=m){
+            p++;
+        }
+        if(z[i].d==m&&z[i].b!=m){
+            q++;
+        }
+        if(p>x&&!flag) flag=1;
+        if(q>y&&!flag) flag=2;
+    }
+    if(flag==1) printf("A\n%d",q);
+    else printf("B\n%d\n",p);
+    return 0;
+}
