@@ -1,0 +1,56 @@
+#include <iostream>
+#include <cstdio>
+#include <cstring>
+#define ll long long
+using namespace std;
+
+ll dp[20][10];
+ll d[10];
+
+void init()
+{
+    dp[0][0] = 1;
+    for(int i=1;i<=19;i++)
+    {
+        for (int j=0;j<=9;j++)
+        {
+            for (int k=0;k<=9;k++)
+            {
+                if (j!=6)
+                    dp[i][j]+=dp[i-1][k];
+            }
+        }
+    }
+}
+
+ll f(ll n)
+{
+    ll a = 0,b=0;
+    while (n)
+    {
+        b++;
+        d[b] = n % 10;
+        n /= 10;
+    }
+    d[b + 1] = 0;
+    for (int i = b; i >= 1; --i)
+    {
+        for (int j = 0; j < d[i]; ++j)
+        {
+            if (!(d[i + 1] == 6))
+                a += dp[i][j];
+        }
+        if (d[i] == 6)
+            break;
+    }
+    return a;
+}
+
+int main()
+{
+    ll m, n;
+    init();
+    scanf("%lld%lld", &m, &n) ;
+    printf("%lld\n", (n - m + 1) - (f(n + 1) - f(m)));
+    return 0;
+}
