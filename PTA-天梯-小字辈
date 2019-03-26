@@ -1,0 +1,50 @@
+///这个题一开始看到题目以为是并查集...然后找不出辈分数..看题解是BFS+邻接表，然后复习了一下BFS和邻接表以及邻接矩阵，勉强写了这个题
+#include<bits/stdc++.h>
+using namespace std;
+const int N=1e5+10;
+vector<int> v[N];  ///储存彼此辈分关系
+vector<int> p[N];  ///储存每一辈的人
+int n,m,k;  ///k 辈分 m 祖宗
+struct node
+{
+    int x,y; ///坐标位置
+    int step; ///统计步数
+};
+void bfs()
+{
+    queue<int> q;
+    while(!q.empty()) q.pop();
+    q.push(m);
+    p[++k].push_back(m);
+    while(!q.empty()){
+        k++;
+        int s=q.size();
+        for(int i=0;i<s;i++){
+            int t=q.front();
+            q.pop();
+            for(int j=0;j<v[t].size();j++){
+                q.push(v[t][j]);
+                p[k].push_back(v[t][j]);
+            }
+        }
+    }
+    printf("%d\n",--k);
+}
+int main()
+{
+
+    scanf("%d",&n);
+    int x;
+    for(int i=1;i<=n;i++){
+        scanf("%d",&x);
+        if(x>0) v[x].push_back(i); ///记录x的子女是i
+        else m=i; ///记录祖先的位置
+    }
+    bfs();
+    for(int i=0;i<p[k].size();i++){
+        if(i) printf(" ");
+        printf("%d",p[k][i]);
+    }
+    printf("\n");
+    return 0;
+}
