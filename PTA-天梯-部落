@@ -1,0 +1,67 @@
+///裸的并查集，只是找不同部落数的时候没读清楚题目，卡了一下
+#include<bits/stdc++.h>
+using namespace std;
+const int N=1e4+10;
+int n,k,q,num=0;
+int parent[N];
+int v[N];
+///包含路径压缩
+int Find(int x)
+{
+    int k, j, r;
+    r = x;
+    while(r != parent[r])     //查找跟节点
+        r = parent[r];      //找到跟节点，用r记录下
+    k = x;
+    while(k != r)             //非递归路径压缩操作
+    {
+        j = parent[k];         //用j暂存parent[k]的父节点
+        parent[k] = r;        //parent[x]指向跟节点
+        k = j;                    //k移到父节点
+    }
+    return r;         //返回根节点的值
+}
+
+void unite(int x,int y)
+{
+    int tx=Find(x);
+    int ty=Find(y);
+    if(tx==ty) return ;
+    parent[tx]=ty;
+}
+
+int main()
+{
+    memset(v,0,sizeof(v));
+    scanf("%d",&n);
+    int cnt=0;
+    for(int i=1;i<N;i++) parent[i]=i;
+    for(int i=0;i<n;i++){
+        scanf("%d",&k);
+        int x,y;
+        scanf("%d",&x);
+        if(cnt<x) cnt=x;
+        for(int j=1;j<k;j++){
+            scanf("%d",&y);
+            unite(x,y);
+            x=y;
+            if(cnt<y) cnt=y;
+        }
+    }
+    int ans=0;
+    for(int i=1;i<=cnt;i++){
+        if(!v[Find(i)]){
+            v[Find(i)]=1;
+            ans++;
+        }
+    }
+    scanf("%d",&q);
+    int a,b;
+    printf("%d %d\n",cnt,ans);
+    for(int i=0;i<q;i++){
+        scanf("%d%d",&a,&b);
+        if(Find(a)==Find(b)) printf("Y\n");
+        else printf("N\n");
+    }
+    return 0;
+}
