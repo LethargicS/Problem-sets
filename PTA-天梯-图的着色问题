@@ -1,0 +1,41 @@
+///第一遍是用二维数组存相关信息，不知道哪儿有错，不过我觉得思路还比较新颖。后面改用结构体，有个变量忘记初始化一直wa，哎
+#include<bits/stdc++.h>
+using namespace std;
+const int N=1e6+10;
+struct t
+{
+    int u,v;
+}a[1000000+10];
+int b[1000000+10];
+int m[1000000+10];
+int main()
+{
+    int V,E,K;
+    int x,y,n;
+    scanf("%d%d%d",&V,&E,&K);
+    for(int i=0;i<E;i++){
+        scanf("%d%d",&x,&y);
+        a[i].u=x;
+        a[i].v=y;
+    }
+    scanf("%d",&n);
+    int flag,cnt;
+    for(int i=0;i<n;i++){
+        cnt=0,flag=0;
+        memset(b,0,sizeof(b));
+        for(int j=1;j<=V;j++){
+            scanf("%d",&m[j]);
+            if(!b[m[j]]){
+                cnt++;
+                b[m[j]]=1;
+            }
+        }
+        if(cnt!=K) flag=1;
+        for(int j=0;j<E;j++){
+            if(m[a[j].u]==m[a[j].v]) flag=1;
+        }
+        if(flag) printf("No\n");
+        else printf("Yes\n");
+    }
+    return 0;
+}
