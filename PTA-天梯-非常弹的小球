@@ -1,0 +1,24 @@
+///角度的确定卡了一会儿，45°.....然后公式化简出错也卡了一下
+#include<bits/stdc++.h>
+using namespace std;
+const int eps=1e-8;
+
+int main()
+{
+    int w,p;
+    scanf("%d%d",&w,&p);
+    double sum=0.0,m;
+    double x,e,g;
+    g=9.8;
+    e=1000.0;
+    m=(double)w/100.0;
+    x=e/(m*g);
+    sum+=x;
+    while(e>eps){
+        e*=(100.0-p)/100.0;
+        x=e/(m*g);
+        sum+=x;
+    }
+    printf("%.3lf\n",sum*2);
+    return 0;
+}
